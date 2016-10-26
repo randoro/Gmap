@@ -30,7 +30,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(final GoogleMap map) {
         this.map = map;
-        map.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(10.0f, 10.0f), 10, 10, 10)));
+        map.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(55.612f, 13.0f), 11, 10, 10)));
+        // 55.612, 13.0 Malmö
+        // 55.70, 13.20 Lund
+        // 56.047073, 12.695367 Helsingborg
+        // 55.839154, 13.303499 Eslöv
+
     }
 
     public void MapReady() {
