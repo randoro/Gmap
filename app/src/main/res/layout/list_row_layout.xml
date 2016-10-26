@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="City"
+        android:id="@+id/tvCity"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="30dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AccuWeather"
+        android:id="@+id/tvTodayAccu"
+        android:layout_below="@+id/tvCity"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/tvCity"
+        android:layout_toStartOf="@+id/tvCity"
+        android:textSize="20dp"
+        android:layout_marginLeft="20dp"
+        android:textColor="#0065a9" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OurWeather"
+        android:id="@+id/tvTodayOurWeather"
+        android:layout_below="@+id/tvCity"
+        android:layout_toRightOf="@+id/tvCity"
+        android:layout_toEndOf="@+id/tvCity"
+        android:textSize="20dp"
+        android:layout_marginLeft="20dp"
+        android:textColor="#f00000" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A1"
+        android:id="@+id/tvAccuOne"
+        android:textSize="15dp"
+        android:layout_below="@+id/tvTodayAccu"
+        android:layout_alignParentStart="true"
+        android:textColor="#0053b2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="O1"
+        android:id="@+id/tvOurWeatherOne"
+        android:layout_below="@+id/tvTodayAccu"
+        android:layout_alignStart="@+id/tvTodayAccu"
+        android:textSize="15dp"
+        android:textColor="#dc0606" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="O2"
+        android:id="@+id/tvOurWeatherTwo"
+        android:textSize="15dp"
+        android:textColor="#a20000"
+        android:layout_below="@+id/tvTodayAccu"
+        android:layout_toEndOf="@+id/tvAccuTwo" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="O3"
+        android:id="@+id/tvOurWeatherThree"
+        android:textSize="15dp"
+        android:textColor="#b90202"
+        android:layout_below="@+id/tvTodayAccu"
+        android:layout_alignEnd="@+id/tvTodayAccu" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="O4"
+        android:id="@+id/tvOurWeatherFour"
+        android:textColor="#bc0000"
+        android:textSize="15dp"
+        android:layout_alignTop="@+id/tvAccuFour"
+        android:layout_toEndOf="@+id/tvAccuFour" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A2"
+        android:id="@+id/tvAccuTwo"
+        android:textSize="15dp"
+        android:textColor="#0076ba"
+        android:layout_marginLeft="10dp"
+        android:layout_alignBaseline="@+id/tvOurWeatherTwo"
+        android:layout_alignBottom="@+id/tvOurWeatherTwo"
+        android:layout_toEndOf="@+id/tvOurWeatherOne"
+        android:layout_marginStart="14dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A3"
+        android:id="@+id/tvAccuThree"
+        android:textSize="15dp"
+        android:textColor="#0062da"
+        android:layout_marginLeft="10dp"
+        android:layout_alignBaseline="@+id/tvOurWeatherThree"
+        android:layout_alignBottom="@+id/tvOurWeatherThree"
+        android:layout_toStartOf="@+id/tvOurWeatherThree" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A4"
+        android:id="@+id/tvAccuFour"
+        android:textSize="15dp"
+        android:textColor="#0049db"
+        android:layout_marginLeft="10dp"
+        android:layout_alignBaseline="@+id/tvOurWeatherThree"
+        android:layout_alignBottom="@+id/tvOurWeatherThree"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A5"
+        android:id="@+id/tvAccuFive"
+        android:textSize="15dp"
+        android:textColor="#003cad"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/tvTodayOurWeather"
+        android:layout_alignStart="@+id/tvTodayOurWeather" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="O5"
+        android:id="@+id/tvOurWeatherFive"
+        android:textSize="15dp"
+        android:textColor="#de0000"
+        android:layout_alignBaseline="@+id/tvAccuFive"
+        android:layout_alignBottom="@+id/tvAccuFive"
+        android:layout_toEndOf="@+id/tvAccuFive" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A6"
+        android:id="@+id/tvAccuSix"
+        android:textSize="15dp"
+        android:textColor="#0015d7"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/tvTodayOurWeather"
+        android:layout_toStartOf="@+id/tvOurWeatherSix" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="O6"
+        android:id="@+id/tvOurWeatherSix"
+        android:textSize="15dp"
+        android:textColor="#c20000"
+        android:layout_below="@+id/tvTodayOurWeather"
+        android:layout_alignEnd="@+id/tvTodayOurWeather" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A7"
+        android:id="@+id/tvAccuSeven"
+        android:textSize="15dp"
+        android:textColor="#0051de"
+        android:layout_marginLeft="10dp"
+        android:layout_alignBaseline="@+id/tvOurWeatherSix"
+        android:layout_alignBottom="@+id/tvOurWeatherSix"
+        android:layout_toStartOf="@+id/tvOUrWeatherSeven" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="O7"
+        android:id="@+id/tvOUrWeatherSeven"
+        android:textColor="#b70000"
+        android:textSize="15dp"
+        android:layout_alignBaseline="@+id/tvAccuSeven"
+        android:layout_alignBottom="@+id/tvAccuSeven"
+        android:layout_alignParentEnd="true" />
+
+
+</RelativeLayout>
+
