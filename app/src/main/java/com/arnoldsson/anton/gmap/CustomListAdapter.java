@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -84,17 +85,11 @@ public class CustomListAdapter extends BaseAdapter {
             holder.tvOWFive = (TextView)_convertView.findViewById(R.id.tvOurWeatherFive);
             holder.tvOWSix = (TextView)_convertView.findViewById(R.id.tvOurWeatherSix);
             holder.tvOWSeven = (TextView)_convertView.findViewById(R.id.tvOUrWeatherSeven);
-            final Context context = _parent.getContext();
-            FragmentManager fm = ((Activity) context).getFragmentManager();
-            FragmentTransaction fragmentTransaction = fm.beginTransaction();
 
-            GMapFragment f1 = new GMapFragment();
-            fragmentTransaction.add(R.id.frGmap, f1);
-            fragmentTransaction.commit();
-
-            //holder.gMap = (GMapFragment)fm.findFragmentById(R.id.frGmap);
+            holder.gMap = (MapImageView) _convertView.findViewById(R.id.ivMap);
             Log.println(Log.INFO, "gmap added", " ok");
-            //holder.gMap.getMapAsync(holder);
+
+
 
             //Set values
 
@@ -102,7 +97,7 @@ public class CustomListAdapter extends BaseAdapter {
 
             holder.tvAccuToday.setText(listData.get(_position).accuToday());
             holder.tvOWToday.setText(listData.get(_position).ourToday());
-
+            holder.gMap.setImageResource(R.drawable.malmo_static);
 
 
 
@@ -143,7 +138,7 @@ public class CustomListAdapter extends BaseAdapter {
         TextView tvOWSix;
         TextView tvOWSeven;
 
-        GMapFragment gMap;
+        MapImageView gMap;
 
 
     }

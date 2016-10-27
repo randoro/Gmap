@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -224,25 +225,10 @@
 
         </LinearLayout>
 
-        <FrameLayout
-            android:layout_width="204dp"
-            android:layout_height="118dp"
-            android:id="@+id/frGmap"
-            android:layout_gravity="center_horizontal">
-
-            <fragment
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:name="com.arnoldsson.anton.gmap.GMapFragment"
-                tools:layout="@layout/fragment_gmap" />
-        </FrameLayout>
-
-        <!--<FrameLayout-->
-        <!--android:layout_width="204dp"-->
-        <!--android:layout_height="118dp"-->
-        <!--android:id="@+id/fragment_holder"-->
-        <!--android:layout_gravity="center_horizontal">-->
-        <!--</FrameLayout>-->
+        <com.arnoldsson.anton.gmap.MapImageView
+            android:layout_width="match_parent"
+            android:layout_height="192dp"
+            android:id="@+id/ivMap" />
 
     </LinearLayout>
 

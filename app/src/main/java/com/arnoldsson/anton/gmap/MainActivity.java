@@ -2,6 +2,7 @@ package com.arnoldsson.anton.gmap;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -40,16 +41,14 @@ public class MainActivity extends Activity {
         CLA = new CustomListAdapter(this, weatherList);
 
         weatherList.add(new WeatherObject(City.Malmö, 5, -2));
-        weatherList.add(new WeatherObject(City.Helsingborg, 3, -4));
-        weatherList.add(new WeatherObject(City.Lund, 14,15));
-        weatherList.add(new WeatherObject(City.Lund, 14,15));
-        weatherList.add(new WeatherObject(City.Lund, 14,15));
-        weatherList.add(new WeatherObject(City.Lund, 14,15));
+        weatherList.add(new WeatherObject(City.Lund, 3, -4));
+        weatherList.add(new WeatherObject(City.Helsingborg, 14,15));
+        weatherList.add(new WeatherObject(City.Eslöv, 14,15));
 
         Toast.makeText(MainActivity.this, "" + CLA.getCount(), Toast.LENGTH_LONG).show();
 
         lvWeather.setAdapter(CLA);
-        //lvWeather.setOnItemClickListener(new ListViewListener());
+        lvWeather.setOnItemClickListener(new ListViewListener());
     }
 
 
@@ -65,6 +64,8 @@ public class MainActivity extends Activity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Object o = lvWeather.getItemAtPosition(position);
             Object income = (Object)o;
+
+            Log.println(Log.INFO, "clicked", Integer.toString(position));
         }
     }
 }
