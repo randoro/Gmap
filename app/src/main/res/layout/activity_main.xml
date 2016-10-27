@@ -10,18 +10,11 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.arnoldsson.anton.gmap.MainActivity">
 
-    <fragment
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.MapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="300dp" />
-
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="200dp"
-        android:id="@+id/lvWeather" />
+        android:id="@+id/lvWeather"
+        android:layout_alignParentTop="true"
+        android:layout_height="match_parent" />
 
 </RelativeLayout>

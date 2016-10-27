@@ -1,14 +1,20 @@
 package com.arnoldsson.anton.gmap;
 
+import android.app.Activity;
 import android.content.Context;
-import android.support.v4.app.FragmentManager;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
 import java.util.ArrayList;
@@ -17,7 +23,7 @@ import java.util.ArrayList;
  * Created by Rasmus Dator on 2016-10-26.
  */
 
-public class CustomListAdapter extends BaseAdapter{
+public class CustomListAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
     private ArrayList<WeatherObject> listData;
@@ -29,6 +35,8 @@ public class CustomListAdapter extends BaseAdapter{
         inflater = LayoutInflater.from(_context);
 
     }
+
+
 
     @Override
     public int getCount()
@@ -56,6 +64,8 @@ public class CustomListAdapter extends BaseAdapter{
             _convertView = inflater.inflate(R.layout.list_row_layout, null);
             holder = new ViewHolder();
 
+            holder.tvCity = (TextView) _convertView.findViewById(R.id.tvCity);
+
             holder.tvAccuToday = (TextView) _convertView.findViewById(R.id.tvTodayAccu);
             holder.tvOWToday = (TextView)_convertView.findViewById(R.id.tvTodayOurWeather);
 
@@ -74,6 +84,27 @@ public class CustomListAdapter extends BaseAdapter{
             holder.tvOWFive = (TextView)_convertView.findViewById(R.id.tvOurWeatherFive);
             holder.tvOWSix = (TextView)_convertView.findViewById(R.id.tvOurWeatherSix);
             holder.tvOWSeven = (TextView)_convertView.findViewById(R.id.tvOUrWeatherSeven);
+            final Context context = _parent.getContext();
+            FragmentManager fm = ((Activity) context).getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+
+            GMapFragment f1 = new GMapFragment();
+            fragmentTransaction.add(R.id.frGmap, f1);
+            fragmentTransaction.commit();
+
+            //holder.gMap = (GMapFragment)fm.findFragmentById(R.id.frGmap);
+            Log.println(Log.INFO, "gmap added", " ok");
+            //holder.gMap.getMapAsync(holder);
+
+            //Set values
+
+            holder.tvCity.setText(listData.get(_position).getCity());
+
+            holder.tvAccuToday.setText(listData.get(_position).accuToday());
+            holder.tvOWToday.setText(listData.get(_position).ourToday());
+
+
+
 
         }
         else
@@ -87,6 +118,9 @@ public class CustomListAdapter extends BaseAdapter{
 
     static class ViewHolder
     {
+        //City name
+        TextView tvCity;
+
         //Todays weather.
         TextView tvAccuToday;
         TextView tvOWToday;
@@ -108,6 +142,9 @@ public class CustomListAdapter extends BaseAdapter{
         TextView tvOWFive;
         TextView tvOWSix;
         TextView tvOWSeven;
+
+        GMapFragment gMap;
+
 
     }
 

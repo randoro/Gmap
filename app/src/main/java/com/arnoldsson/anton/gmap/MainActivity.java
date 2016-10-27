@@ -1,7 +1,6 @@
 package com.arnoldsson.anton.gmap;
 
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,10 +18,10 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MainActivity extends Activity {
 
-    MapFragment gMap;
-    GoogleMap map;
+//    MapFragment gMap;
+//    GoogleMap map;
 
     private ListView lvWeather;
     private CustomListAdapter CLA;
@@ -34,15 +33,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_main);
 
 
-        gMap = (MapFragment)getFragmentManager().findFragmentById(R.id.map);
-        gMap.getMapAsync(this);
+//        gMap = (MapFragment)getFragmentManager().findFragmentById(R.id.map);
+//        gMap.getMapAsync(this);
 
         lvWeather = (ListView)findViewById(R.id.lvWeather);
         CLA = new CustomListAdapter(this, weatherList);
 
-        weatherList.add(new WeatherObject(1, 2));
-        weatherList.add(new WeatherObject(3, 4));
-        weatherList.add(new WeatherObject(4,5));
+        weatherList.add(new WeatherObject(City.Malmö, 5, -2));
+        weatherList.add(new WeatherObject(City.Helsingborg, 3, -4));
+        weatherList.add(new WeatherObject(City.Lund, 14,15));
+        weatherList.add(new WeatherObject(City.Lund, 14,15));
+        weatherList.add(new WeatherObject(City.Lund, 14,15));
+        weatherList.add(new WeatherObject(City.Lund, 14,15));
 
         Toast.makeText(MainActivity.this, "" + CLA.getCount(), Toast.LENGTH_LONG).show();
 
@@ -51,16 +53,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-    @Override
-    public void onMapReady(final GoogleMap map) {
-        this.map = map;
-        map.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(55.612f, 13.0f), 11, 10, 10)));
-        // 55.612, 13.0 Malmö
-        // 55.70, 13.20 Lund
-        // 56.047073, 12.695367 Helsingborg
-        // 55.839154, 13.303499 Eslöv
 
-    }
 
     public void MapReady() {
 
