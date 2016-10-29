@@ -3,8 +3,8 @@
     package="com.arnoldsson.anton.gmap">
 
     <uses-sdk
-        android:minSdkVersion="12"
-        android:targetSdkVersion="17" />
+        android:minSdkVersion="22"
+        android:targetSdkVersion="23" />
 
     <permission
         android:name="com.truiton.mapfragment.permission.MAPS_RECEIVE"

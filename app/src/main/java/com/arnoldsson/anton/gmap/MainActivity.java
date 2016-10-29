@@ -40,10 +40,10 @@ public class MainActivity extends Activity {
         lvWeather = (ListView)findViewById(R.id.lvWeather);
         CLA = new CustomListAdapter(this, weatherList);
 
-        weatherList.add(new WeatherObject(City.Malmö, 5, -2));
-        weatherList.add(new WeatherObject(City.Lund, 3, -4));
-        weatherList.add(new WeatherObject(City.Helsingborg, 14,15));
-        weatherList.add(new WeatherObject(City.Eslöv, 14,15));
+        weatherList.add(new WeatherObject(City.Malmö, 5, -2, new int[]{0, 2, -5, 3, 2, 5, 3}, new int[]{1, 4, -2, -1, 3, 4, 2}));
+        weatherList.add(new WeatherObject(City.Lund, 3, -4, new int[]{0, 2, -5, 3, 2, 5, 3}, new int[]{1, 4, -2, -1, 3, 4, 2}));
+        weatherList.add(new WeatherObject(City.Helsingborg, 4, -4, new int[]{0, 2, -5, 3, 2, 5, 3}, new int[]{1, 4, -2, -1, 3, 4, 2}));
+        weatherList.add(new WeatherObject(City.Eslöv, 14,15, new int[]{0, 2, -5, 3, 2, 5, 3}, new int[]{1, 4, -2, -1, 3, 4, 2}));
 
         Toast.makeText(MainActivity.this, "" + CLA.getCount(), Toast.LENGTH_LONG).show();
 
