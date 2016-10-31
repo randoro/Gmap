@@ -37,6 +37,22 @@ public class CustomListAdapter extends BaseAdapter {
 
     }
 
+    public void add(WeatherObject newOb) {
+        listData.add(newOb);
+        notifyDataSetChanged();
+    }
+
+
+    public void remove(int index) {
+        listData.remove(index);
+        notifyDataSetChanged();
+    }
+
+    public void clear() {
+        listData.clear();
+        notifyDataSetChanged();
+    }
+
 
 
     @Override
@@ -167,6 +183,8 @@ public class CustomListAdapter extends BaseAdapter {
         holder.gMap.setCoordinates(WeatherObject.Lat[city.ordinal()], WeatherObject.Lng[city.ordinal()]);
 
     }
+
+
 
 
     static class ViewHolder
