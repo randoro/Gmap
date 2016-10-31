@@ -98,18 +98,17 @@ public class CustomListAdapter extends BaseAdapter {
             Log.println(Log.INFO, "gmap added", " ok");
 
 
-
-            //Set values
-
-            setValues(holder, _position);
-
-
+            _convertView.setTag(holder);
 
         }
         else
         {
             holder = (ViewHolder) _convertView.getTag();
         }
+
+        //Set values
+        setValues(holder, _position);
+
 
         return _convertView;
 
