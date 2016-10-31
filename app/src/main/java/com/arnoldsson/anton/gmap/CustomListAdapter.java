@@ -164,6 +164,8 @@ public class CustomListAdapter extends BaseAdapter {
 
         }
 
+        holder.gMap.setCoordinates(WeatherObject.Lat[city.ordinal()], WeatherObject.Lng[city.ordinal()]);
+
     }
 
 

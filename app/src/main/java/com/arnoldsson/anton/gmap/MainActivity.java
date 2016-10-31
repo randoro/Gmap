@@ -18,6 +18,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 public class MainActivity extends Activity {
 
@@ -27,6 +28,8 @@ public class MainActivity extends Activity {
     private ListView lvWeather;
     private CustomListAdapter CLA;
     private ArrayList<WeatherObject> weatherList = new ArrayList<WeatherObject>();
+    public static float lat;
+    public static float lng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +37,8 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
 
-//        gMap = (MapFragment)getFragmentManager().findFragmentById(R.id.map);
-//        gMap.getMapAsync(this);
+        lat = 55.60f;
+        lng = 12.95f;
 
         lvWeather = (ListView)findViewById(R.id.lvWeather);
         CLA = new CustomListAdapter(this, weatherList);

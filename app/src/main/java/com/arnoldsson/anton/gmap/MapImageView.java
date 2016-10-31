@@ -2,6 +2,7 @@ package com.arnoldsson.anton.gmap;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.util.AttributeSet;
@@ -15,6 +16,9 @@ import android.widget.ImageView;
 
 public class MapImageView extends ImageView {
 
+    double mapLat, maplng;
+
+
     public MapImageView(Context context) {
         super(context);
     }
@@ -23,34 +27,55 @@ public class MapImageView extends ImageView {
         super(context, attrs);
     }
 
+
+    public void setCoordinates(double _mapLat, double _maplng) {
+        mapLat = _mapLat;
+        maplng = _maplng;
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
 
-        Point p3 = Adjust(13.0, 55.612, 13.0, 55.612, 12);
-//        Point p2 = new Point(0, 0);
-//        if(canvas.getHeight() != 0) {
-//            double newptY = (double)p3.y * ((double)canvas.getWidth() / (double)canvas.getHeight());
-//                    p2 = new Point(p3.x, (int)newptY);
-//        }
+        drawMarker(canvas, p, MainActivity.lat, MainActivity.lng, Color.GREEN);
+
+        drawMarker(canvas, p, mapLat, maplng, Color.BLUE);
+
+        drawMarker(canvas, p, 55.61, 13.05, Color.RED);
+
+    }
+
+
+
+    public void drawMarker(Canvas canvas, Paint p, double _lat, double _lng, int color)
+    {
+        p.setColor(color);
+
+        Point p3 = Adjust(_lng, _lat, maplng, mapLat, 12);
+
         int cw = canvas.getHeight();
         int ch = canvas.getWidth();
 
-        Log.println(Log.DEBUG, "cw", Integer.toString(cw));
-        Log.println(Log.DEBUG, "ch", Integer.toString(ch));
+//        Log.println(Log.DEBUG, "cw", Integer.toString(cw));
+//        Log.println(Log.DEBUG, "ch", Integer.toString(ch));
 
         double cwRatio = (double)cw / 640D;
         double chRatio = (double)ch / 640D;
 
         Point p2 = new Point((int)(p3.x*cwRatio), (int)(p3.y*chRatio));
 
-        Log.println(Log.DEBUG, "width", Integer.toString(canvas.getWidth()));
-        Log.println(Log.DEBUG, "height", Integer.toString(canvas.getHeight()));
-        Log.println(Log.DEBUG, "date p2", p2.toString());
-        canvas.drawRect(p2.x + (cw /2), p2.y + (ch /2), p2.x+10 + (cw /2), p2.y+10 + (ch /2), p);
+//        Log.println(Log.DEBUG, "width", Integer.toString(canvas.getWidth()));
+//        Log.println(Log.DEBUG, "height", Integer.toString(canvas.getHeight()));
+//        Log.println(Log.DEBUG, "date p2", p2.toString());
 
+        if(p2.x < 450 && p2.x > -450 && p2.y < 450 && p2.y > -450) {
+            canvas.drawRect(p2.x + (cw / 2) - 10, p2.y + (ch / 2) - 10, p2.x + 10 + (cw / 2), p2.y + 10 + (ch / 2), p);
+//            Log.println(Log.DEBUG, "inside city", p2.toString());
+        }
     }
+
+
 
 
     //(half of the earth circumference's in pixels at zoom level 21)
