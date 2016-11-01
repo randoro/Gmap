@@ -10,9 +10,24 @@
         android:name="com.truiton.mapfragment.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
 
+    <permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"
+        android:protectionLevel="signature" />
+
+    <permission
+        android:name="android.permission.ACCESS_COARSE_LOCATION"
+        android:protectionLevel="signature" />
+
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-feature android:name="android.hardware.location.gps" />
+
 
     <uses-permission android:name="com.truiton.mapfragment.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.INTERNET" />

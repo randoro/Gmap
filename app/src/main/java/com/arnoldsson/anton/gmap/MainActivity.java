@@ -1,10 +1,16 @@
 package com.arnoldsson.anton.gmap;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -14,10 +20,13 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
 //    MapFragment gMap;
 //    GoogleMap map;
@@ -30,8 +39,14 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter<String> spinnerAdapter;
     private CustomListAdapter CLA;
     private ArrayList<WeatherObject> weatherList = new ArrayList<WeatherObject>();
-    public static float lat;
-    public static float lng;
+    public static double lat;
+    public static double lng;
+
+    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
+    public static final String TAG = "WEAVER_";
+
+    private Location mLastLocation;
+    public LocationManager mLocationManager;
 
     public static String GETMALMO = "http://dataservice.accuweather.com/forecasts/v1/daily/1day/314779?apikey=5JuFyCguaUNELRxwcmUAZUyd0CyAabkg&language=en-us&details=true&metric=true";
 //    public static String GETLUND = "http://dataservice.accuweather.com/forecasts/v1/daily/1day/314779?apikey=5JuFyCguaUNELRxwcmUAZUyd0CyAabkg&language=en-us&details=true&metric=true";
@@ -44,8 +59,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        lat = 55.60f;
-        lng = 12.95f;
+        lat = 55.60D;
+        lng = 12.95D;
+
+        handlePermissionsAndGetLocation();
 
         tasks = new ArrayList<>();
 
@@ -79,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
 
     private class SpinnerListener implements android.widget.AdapterView.OnItemSelectedListener {
 
@@ -184,15 +202,14 @@ public class MainActivity extends AppCompatActivity {
         protected void onPreExecute() {
 //            updateDisplay("Starting task");
 
-            if(tasks.size() == 0){
+            if (tasks.size() == 0) {
                 //pb.setVisibility(View.VISIBLE);
             }
             tasks.add(this);
         }
 
         @Override
-        protected String[] doInBackground(String[]... params)
-        {
+        protected String[] doInBackground(String[]... params) {
             String[] strings = new String[4];
             strings = params[0];
 
@@ -200,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
 
             String[] contents = new String[4];
 
-            for (int i = 0; i < contents.length - 1; i++){
+            for (int i = 0; i < contents.length - 1; i++) {
                 contents[i] = HTTPManager.getData(strings[i]);
             }
             contents[3] = strings[3];
@@ -216,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
 //            CLA.add(new WeatherObject(City.values()[taskCity], accuWeather, -2, new int[]{0, 2, -5, 3, 2, 5, 3}, new int[]{1, 4, -2, -1, 3, 4, 2}));
 
             tasks.remove(this);
-            if(tasks.size() == 0){
+            if (tasks.size() == 0) {
                 //pb.setVisibility(View.INVISIBLE);
             }
         }
@@ -225,5 +242,94 @@ public class MainActivity extends AppCompatActivity {
 //        protected void onProgressUpdate(String... values) {
 ////            updateDisplay(values[0]);
 //        }
+    }
+
+        @Override
+        public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+            switch (requestCode) {
+                case REQUEST_CODE_ASK_PERMISSIONS:
+                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        //Accepted
+                        getLocation();
+                    } else {
+                        // Denied
+                        Toast.makeText(MainActivity.this, "LOCATION Denied", Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                    break;
+                default:
+                    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            }
+        }
+
+
+        private void handlePermissionsAndGetLocation() {
+            Log.v(TAG, "handlePermissionsAndGetLocation");
+            int hasWriteContactsPermission = checkSelfPermission(Manifest.permission.MAPS_RECEIVE);
+            if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        REQUEST_CODE_ASK_PERMISSIONS);
+                return;
+            }
+            getLocation();//if already has permission
+        }
+
+        protected void getLocation() {
+            Log.v(TAG, "GetLocation");
+            int LOCATION_REFRESH_TIME = 1000;
+            int LOCATION_REFRESH_DISTANCE = 5;
+
+            if (!(checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+                Log.v("WEAVER_", "Has permission");
+                mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+                mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
+                        LOCATION_REFRESH_DISTANCE, mLocationListener);
+            } else {
+                Log.v("WEAVER_", "Does not have permission");
+            }
+
+        }
+
+        private final LocationListener mLocationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                lat = location.getLatitude();
+                lng = location.getLongitude();
+                Log.v("WEAVER_", "Location Change");
+                Log.v("lat", Double.toString(lat));
+                Log.v("lng", Double.toString(lng));
+                //textView.setText(String.valueOf(updates) + " updates");
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+
+            }
+        };
+
+
+    @Override
+    public void onConnected(Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
     }
 }
