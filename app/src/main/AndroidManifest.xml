@@ -3,7 +3,7 @@
     package="com.arnoldsson.anton.gmap">
 
     <uses-sdk
-        android:minSdkVersion="22"
+        android:minSdkVersion="21"
         android:targetSdkVersion="23" />
 
     <permission
