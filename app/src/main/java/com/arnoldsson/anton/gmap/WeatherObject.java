@@ -17,11 +17,10 @@ import java.util.Calendar;
 
 public class WeatherObject implements Parcelable {
 
-    public static double[] Lat = {55.612, 55.70, 56.047073, 55.839154};
-    public static double[] Lng = {13.0, 13.20, 12.695367, 13.303499};
+    public static double[] Lat = {55.612, 56.047073, 55.839154};
+    public static double[] Lng = {13.0, 12.695367, 13.303499};
 
     // 55.612, 13.0 Malmö
-    // 55.70, 13.20 Lund
     // 56.047073, 12.695367 Helsingborg
     // 55.839154, 13.303499 Eslöv
 

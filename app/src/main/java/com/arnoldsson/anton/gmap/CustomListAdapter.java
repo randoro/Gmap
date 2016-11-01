@@ -166,9 +166,6 @@ public class CustomListAdapter extends BaseAdapter {
             case Malmö:
                 holder.gMap.setImageResource(R.drawable.malmo_static);
                 break;
-            case Lund:
-                holder.gMap.setImageResource(R.drawable.lund_static);
-                break;
             case Helsingborg:
                 holder.gMap.setImageResource(R.drawable.helsingborg_static);
                 break;
@@ -181,6 +178,7 @@ public class CustomListAdapter extends BaseAdapter {
         }
 
         holder.gMap.setCoordinates(WeatherObject.Lat[city.ordinal()], WeatherObject.Lng[city.ordinal()]);
+        holder.gMap.setPosition(_position);
 
     }
 

@@ -105,20 +105,17 @@ public class MainActivity extends AppCompatActivity {
                     case 1:
                         requestData(GETMALMO, 0);
 //                        requestData(GETLUND, 1);
-                        requestData(GETHELSINGBORG, 2);
-                        requestData(GETESLOV, 3);
+                        requestData(GETHELSINGBORG, 1);
+                        requestData(GETESLOV, 2);
                         break;
                     case 2:
                         requestData(GETMALMO, 0);
                         break;
-//                    case 3:
-//                        requestData(GETLUND, 1);
-//                        break;
                     case 3:
-                        requestData(GETHELSINGBORG, 2);
+                        requestData(GETHELSINGBORG, 1);
                         break;
                     case 4:
-                        requestData(GETESLOV, 3);
+                        requestData(GETESLOV, 2);
                         break;
                     default:
                         break;

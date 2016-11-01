@@ -18,6 +18,11 @@ public class MapImageView extends ImageView {
 
     double mapLat, maplng;
 
+    private static double[] OurLat = {55.5936, 56.0480, 55.8379};
+    private static double[] OurLng = {12.9801, 12.6973, 13.3032};
+
+    private int position;
+
 
     public MapImageView(Context context) {
         super(context);
@@ -25,6 +30,10 @@ public class MapImageView extends ImageView {
 
     public MapImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
+    }
+
+    public void setPosition(int pos) {
+        position = pos;
     }
 
 
@@ -42,7 +51,7 @@ public class MapImageView extends ImageView {
 
         drawMarker(canvas, p, mapLat, maplng, Color.BLUE);
 
-        drawMarker(canvas, p, 55.61, 13.05, Color.RED);
+        drawMarker(canvas, p, OurLat[position], OurLng[position], Color.RED);
 
     }
 
