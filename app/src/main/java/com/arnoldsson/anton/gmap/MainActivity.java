@@ -1,17 +1,12 @@
 package com.arnoldsson.anton.gmap;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.AttributeSet;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,17 +14,8 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     public static float lng;
 
     public static String GETMALMO = "http://dataservice.accuweather.com/forecasts/v1/daily/1day/314779?apikey=5JuFyCguaUNELRxwcmUAZUyd0CyAabkg&language=en-us&details=true&metric=true";
-    public static String GETLUND = "http://dataservice.accuweather.com/forecasts/v1/daily/1day/314779?apikey=5JuFyCguaUNELRxwcmUAZUyd0CyAabkg&language=en-us&details=true&metric=true";
+//    public static String GETLUND = "http://dataservice.accuweather.com/forecasts/v1/daily/1day/314779?apikey=5JuFyCguaUNELRxwcmUAZUyd0CyAabkg&language=en-us&details=true&metric=true";
     public static String GETHELSINGBORG = "http://dataservice.accuweather.com/forecasts/v1/daily/1day/314777?apikey=5JuFyCguaUNELRxwcmUAZUyd0CyAabkg&language=en-us&details=true&metric=true";
     public static String GETESLOV = "http://dataservice.accuweather.com/forecasts/v1/daily/1day/309562?apikey=5JuFyCguaUNELRxwcmUAZUyd0CyAabkg&language=en-us&details=true&metric=true";
 
@@ -59,10 +45,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         lat = 55.60f;
         lng = 12.95f;
-
 
         tasks = new ArrayList<>();
 
@@ -77,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         spinnerAdapter.add("Select cities/city");
         spinnerAdapter.add("All Cities");
         spinnerAdapter.add("Malmö");
-        spinnerAdapter.add("Lund");
+//        spinnerAdapter.add("Lund");
         spinnerAdapter.add("Helsingborg");
         spinnerAdapter.add("Eslöv");
 
@@ -111,8 +95,6 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-
-
             CLA.clear();
 
             if (isOnline()) {
@@ -122,25 +104,24 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 1:
                         requestData(GETMALMO, 0);
-                        requestData(GETLUND, 1);
+//                        requestData(GETLUND, 1);
                         requestData(GETHELSINGBORG, 2);
                         requestData(GETESLOV, 3);
                         break;
                     case 2:
                         requestData(GETMALMO, 0);
                         break;
+//                    case 3:
+//                        requestData(GETLUND, 1);
+//                        break;
                     case 3:
-                        requestData(GETLUND, 1);
-                        break;
-                    case 4:
                         requestData(GETHELSINGBORG, 2);
                         break;
-                    case 5:
+                    case 4:
                         requestData(GETESLOV, 3);
                         break;
                     default:
                         break;
-
                 }
 
 
@@ -169,10 +150,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void requestData(String uri, int version) {
+    private void requestData(String accuToday, int version) {
+
+        String[] allStrings = new String[4];
+
+        allStrings[0] = accuToday;
+        String arduToday = "http://ardutemp.sytes.net:7000/";
+        allStrings[1] = arduToday;
+        String history = "http://ardutemp.sytes.net:7000/history";
+        allStrings[2] = history;
+
+        allStrings[3] = Integer.toString(version);
 
         MyTask task = new MyTask();
-        task.execute(uri, Integer.toString(version));
+        task.execute(allStrings);
     }
 
     protected boolean isOnline()
@@ -189,8 +180,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class MyTask extends AsyncTask<String, String, String> {
-
+    private class MyTask extends AsyncTask<String[], Void, String[]> {
 
         private int taskCity;
 
@@ -205,21 +195,29 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected String doInBackground(String... params)
+        protected String[] doInBackground(String[]... params)
         {
-            taskCity = Integer.parseInt(params[1]);
+            String[] strings = new String[4];
+            strings = params[0];
 
-            String content = HTTPManager.getData(params[0]);
-            return content;
+//            taskCity = Integer.parseInt(params[1]);
+
+            String[] contents = new String[4];
+
+            for (int i = 0; i < contents.length - 1; i++){
+                contents[i] = HTTPManager.getData(strings[i]);
+            }
+            contents[3] = strings[3];
+
+            return contents;
         }
 
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(String[] result) {
 
-            double accuWeather = TempJSONParser.parseFeed(result, getApplicationContext());
+            CLA.add(WeatherJSONParser.parseFeed(result, getApplicationContext()));
 
-            CLA.add(new WeatherObject(City.values()[taskCity], accuWeather, -2, new int[]{0, 2, -5, 3, 2, 5, 3}, new int[]{1, 4, -2, -1, 3, 4, 2}));
-
+//            CLA.add(new WeatherObject(City.values()[taskCity], accuWeather, -2, new int[]{0, 2, -5, 3, 2, 5, 3}, new int[]{1, 4, -2, -1, 3, 4, 2}));
 
             tasks.remove(this);
             if(tasks.size() == 0){
@@ -227,9 +225,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        @Override
-        protected void onProgressUpdate(String... values) {
-//            updateDisplay(values[0]);
-        }
+//        @Override
+//        protected void onProgressUpdate(String... values) {
+////            updateDisplay(values[0]);
+//        }
     }
 }
