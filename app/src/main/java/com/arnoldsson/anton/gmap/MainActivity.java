@@ -14,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,9 +49,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     private Location mLastLocation;
     public LocationManager mLocationManager;
+    public GoogleApiClient mGoogleApiClient;
 
     public static String GETMALMO = "http://dataservice.accuweather.com/forecasts/v1/daily/1day/314779?apikey=5JuFyCguaUNELRxwcmUAZUyd0CyAabkg&language=en-us&details=true&metric=true";
-//    public static String GETLUND = "http://dataservice.accuweather.com/forecasts/v1/daily/1day/314779?apikey=5JuFyCguaUNELRxwcmUAZUyd0CyAabkg&language=en-us&details=true&metric=true";
     public static String GETHELSINGBORG = "http://dataservice.accuweather.com/forecasts/v1/daily/1day/314777?apikey=5JuFyCguaUNELRxwcmUAZUyd0CyAabkg&language=en-us&details=true&metric=true";
     public static String GETESLOV = "http://dataservice.accuweather.com/forecasts/v1/daily/1day/309562?apikey=5JuFyCguaUNELRxwcmUAZUyd0CyAabkg&language=en-us&details=true&metric=true";
 
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         handlePermissionsAndGetLocation();
 
+
         tasks = new ArrayList<>();
 
         spinner = (Spinner)findViewById(R.id.spinner);
@@ -77,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         spinnerAdapter.add("Select cities/city");
         spinnerAdapter.add("All Cities");
         spinnerAdapter.add("Malmö");
-//        spinnerAdapter.add("Lund");
         spinnerAdapter.add("Helsingborg");
         spinnerAdapter.add("Eslöv");
 
@@ -121,7 +123,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                         break;
                     case 1:
                         requestData(GETMALMO, 0);
-//                        requestData(GETLUND, 1);
                         requestData(GETHELSINGBORG, 1);
                         requestData(GETESLOV, 2);
                         break;
@@ -264,8 +265,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
 
         private void handlePermissionsAndGetLocation() {
-            Log.v(TAG, "handlePermissionsAndGetLocation");
-            int hasWriteContactsPermission = checkSelfPermission(Manifest.permission.MAPS_RECEIVE);
+//            Log.v(TAG, "handlePermissionsAndGetLocation");
+            int hasWriteContactsPermission = checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION);
             if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         REQUEST_CODE_ASK_PERMISSIONS);
@@ -275,30 +276,31 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
 
         protected void getLocation() {
-            Log.v(TAG, "GetLocation");
+//            Log.v(TAG, "GetLocation");
             int LOCATION_REFRESH_TIME = 1000;
             int LOCATION_REFRESH_DISTANCE = 5;
 
-            if (!(checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-                Log.v("WEAVER_", "Has permission");
+            if (!(checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED /*&& checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED*/)) {
+//                Log.v("WEAVER_", "Has permission");
                 mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
                 mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
                         LOCATION_REFRESH_DISTANCE, mLocationListener);
             } else {
-                Log.v("WEAVER_", "Does not have permission");
+//                Log.v("WEAVER_", "Does not have permission");
             }
 
         }
-
+//
         private final LocationListener mLocationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
                 lat = location.getLatitude();
                 lng = location.getLongitude();
-                Log.v("WEAVER_", "Location Change");
-                Log.v("lat", Double.toString(lat));
-                Log.v("lng", Double.toString(lng));
-                //textView.setText(String.valueOf(updates) + " updates");
+                View vg = findViewById (R.id.lvWeather);
+                vg.invalidate();
+//                Log.v("WEAVER_", "Location Change");
+//                Log.v("lat", Double.toString(lat));
+//                Log.v("lng", Double.toString(lng));
             }
 
             @Override
@@ -319,17 +321,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
 
     @Override
-    public void onConnected(Bundle bundle) {
+    public void onConnected(Bundle connectionHint) {
 
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-
     }
 }
