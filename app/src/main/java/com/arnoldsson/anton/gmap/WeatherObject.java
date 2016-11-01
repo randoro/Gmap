@@ -1,6 +1,8 @@
 package com.arnoldsson.anton.gmap;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -13,7 +15,7 @@ import java.util.Calendar;
  * Created by Rasmus Dator on 2016-10-26.
  */
 
-public class WeatherObject {
+public class WeatherObject implements Parcelable {
 
     public static double[] Lat = {55.612, 55.70, 56.047073, 55.839154};
     public static double[] Lng = {13.0, 13.20, 12.695367, 13.303499};
@@ -23,11 +25,13 @@ public class WeatherObject {
     // 56.047073, 12.695367 Helsingborg
     // 55.839154, 13.303499 Eslöv
 
-    private double accuWeather, ourWeather;
-    private int[] accu7days,  our7days;
-    private City city;
+    private double accuWeather = 0D;
+    private double ourWeather = 0D;
+    private int[] accu7days = new int[]{ 0, 0, 0, 0, 0, 0, 0 };
+    private int[] our7days = new int[]{ 0, 0, 0, 0, 0, 0, 0 };
+    private City city = City.Malmö;
 
-    public WeatherObject(City _city, int _accuWeather, int _ourWeather, int[] _accu7days, int[] _our7days)
+    public WeatherObject(City _city, double _accuWeather, double _ourWeather, int[] _accu7days, int[] _our7days)
     {
         this.accuWeather = _accuWeather;
         this.ourWeather = _ourWeather;
@@ -115,6 +119,41 @@ public class WeatherObject {
 
     public City getCityType() {
         return city;
+    }
+
+
+
+    public int describeContents() {
+        return 0;
+    }
+
+    /** save object in parcel */
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeDouble(accuWeather);
+        out.writeDouble(ourWeather);
+        out.writeIntArray(accu7days);
+        out.writeIntArray(our7days);
+        out.writeInt(city.ordinal());
+    }
+
+    public static final Parcelable.Creator<WeatherObject> CREATOR
+            = new Parcelable.Creator<WeatherObject>() {
+        public WeatherObject createFromParcel(Parcel in) {
+            return new WeatherObject(in);
+        }
+
+        public WeatherObject[] newArray(int size) {
+            return new WeatherObject[size];
+        }
+    };
+
+    /** recreate object from parcel */
+    private WeatherObject(Parcel in) {
+        accuWeather = in.readDouble();
+        ourWeather = in.readDouble();
+        in.readIntArray(accu7days);
+        in.readIntArray(our7days);
+        city = (City.values()[in.readInt()]);
     }
 
 }
