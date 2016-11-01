@@ -6,9 +6,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by Carl on 2016-10-25.
  */
@@ -34,8 +31,8 @@ public class WeatherJSONParser {
                 break;
         }
 
-        double accuWeather = AccuWeather(content[0]);
-        double arduWeather = OurWeather(content[1], compareWithThis);
+        double accuWeather = (int)AccuWeather(content[0]);
+        double arduWeather = (int)OurWeather(content[1], compareWithThis);
         int[] accu7Days = Accu7Days(content[2], compareWithThis);
         int[] ardu7Days = Our7Days(content[2], compareWithThis);
 
@@ -51,8 +48,6 @@ public class WeatherJSONParser {
     private static double AccuWeather(String content){
         try {
             JSONObject everything_obj = new JSONObject(content);
-
-            List<AccuTemp> temps = new ArrayList<>();
 
             JSONArray array = everything_obj.getJSONArray("DailyForecasts");
 
