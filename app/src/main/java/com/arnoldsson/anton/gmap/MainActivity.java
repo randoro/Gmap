@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     List<MyTask> tasks;
     Spinner spinner;
     ArrayAdapter<String> spinnerAdapter;
-    List<AccuTemp> temps;
     private CustomListAdapter CLA;
     private ArrayList<WeatherObject> weatherList = new ArrayList<WeatherObject>();
     public static float lat;
